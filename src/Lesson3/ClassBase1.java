@@ -11,5 +11,11 @@ public class ClassBase1 {
         Constructor c2 = new Constructor("Jiho","Yoon");
         System.out.println(c2.getName());
         System.out.println(c2.getFriend(0));
+
+        NoConst no = new NoConst();
+        System.out.println(no.getFirstName(c2));
+
+        System.out.println(Constructor.plus(3, 5));
+        System.out.println(c2.plus(3, 5));
     }
 }

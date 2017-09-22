@@ -3,8 +3,8 @@ package Lesson3;
 import java.util.ArrayList;
 
 public class Constructor {
-    private String firstName;
-    private String lastName;
+    final String firstName;
+    private final String lastName;
     private String seperator;
     private ArrayList<String> friends;
 
@@ -27,9 +27,16 @@ public class Constructor {
         lastName = lname;
     }
     public String getName() {
-        return firstName + " " + lastName;
+        int a = this.plus(3, 5);
+        int b = plus(6, 7);
+        int c = Constructor.plus(6, 7);
+
+        return firstName + seperator + lastName;
     }
     public String getFriend(int index) {
         return friends.get(index);
+    }
+    static public int plus(int a, int b) {
+        return a + b;
     }
 }
