@@ -1,4 +1,4 @@
-package c0915;
+package Lesson1;
 
 public class ControlState {
     static public void main(String args[]) {
