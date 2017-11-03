@@ -4,9 +4,11 @@ public class Banker {
     public boolean requestDeposit(DepositRequest req) {
         Account account = req.getDepositAccount();
         if(!account.isDepositable()) return false;
+
         Money money = req.getMoney();
         if(Banker.isMinimumLimit(money)) return false;
-        return false;
+
+        return true;
     }
 
     public static final Money MININMUM = new Money(Currency.WON, 100);
