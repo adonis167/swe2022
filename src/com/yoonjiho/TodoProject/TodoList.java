@@ -3,27 +3,24 @@ package com.yoonjiho.TodoProject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 
 public class TodoList {
-    public static final int BY_ADD_ORDER = 0;
-    public static final int BY_NAME_ASC = 1;
-    public static final int BY_NAME_DESC = 2;
-    public static final int BY_DATE_ASC = 3;
-    public static final int BY_DATE_DESC = 4;
+    public enum Sort { BY_ADD_ORDER, BY_NAME_ASC, BY_NAME_DESC, BY_DATE_ASC, BY_DATE_DESC };
 
     private String name;
-    private int sorting;
+    private Sort sort;
     private TodoTheme theme;
     private ArrayList<TodoTask> todoTasks = new ArrayList<TodoTask>();
     private boolean doneTaskOnOff = false;
 
     public TodoList(TodoTheme theme) {
-        this("untitled list", BY_ADD_ORDER, theme);
+        this("untitled list", Sort.BY_ADD_ORDER, theme);
     }
 
-    public TodoList(String name, int sorting, TodoTheme theme) {
+    public TodoList(String name, Sort sort, TodoTheme theme) {
         this.name = name;
-        this.sorting = sorting;
+        this.sort = sort;
         this.theme = theme;
     }
 
@@ -33,17 +30,18 @@ public class TodoList {
 
     public void setTodoTasks(ArrayList<TodoTask> todoTasks) {
         this.todoTasks = todoTasks;
-        //sortTasks();
     }
 
-    public void addTask() {
-        todoTasks.add(new TodoTask());
-        //sortTasks();
+    public TodoTask addTask() {
+        TodoTask todoTask = new TodoTask();
+        todoTasks.add(todoTask);
+        return todoTask;
     }
 
-    public void addTask(String name, String dueDate) {
-        todoTasks.add(new TodoTask(name, dueDate));
-        //sortTasks();
+    public TodoTask addTask(String name, Date dueDate, Date remainder) {
+        TodoTask todoTask = new TodoTask(name, dueDate, remainder);
+        todoTasks.add(todoTask);
+        return todoTask;
     }
 
     public String getName() {
@@ -54,12 +52,12 @@ public class TodoList {
         this.name = name;
     }
 
-    public int getSorting() {
-        return sorting;
+    public Sort getSorting() {
+        return sort;
     }
 
-    public void setSorting(int sorting) {
-        this.sorting = sorting;
+    public void setSorting(Sort sort) {
+        this.sort = sort;
         //sortTasks();
     }
 
@@ -80,8 +78,8 @@ public class TodoList {
     }
 
     private void sortTasks() {
-        switch (sorting) {
-            case 0:
+        switch (sort) {
+            case BY_ADD_ORDER:
                 Collections.sort(todoTasks, new Comparator<TodoTask>() {
                     @Override
                     public int compare(TodoTask o1, TodoTask o2) {
@@ -89,7 +87,7 @@ public class TodoList {
                     }
                 });
                 break;
-            case 1:
+            case BY_NAME_ASC:
                 Collections.sort(todoTasks, new Comparator<TodoTask>() {
                     @Override
                     public int compare(TodoTask o1, TodoTask o2) {
@@ -97,7 +95,7 @@ public class TodoList {
                     }
                 });
                 break;
-            case 2:
+            case BY_NAME_DESC:
                 Collections.sort(todoTasks, new Comparator<TodoTask>() {
                     @Override
                     public int compare(TodoTask o1, TodoTask o2) {
@@ -106,7 +104,7 @@ public class TodoList {
                 });
                 Collections.reverse(todoTasks);
                 break;
-            case 3:
+            case BY_DATE_ASC:
                 Collections.sort(todoTasks, new Comparator<TodoTask>() {
                     @Override
                     public int compare(TodoTask o1, TodoTask o2) {
@@ -114,7 +112,7 @@ public class TodoList {
                     }
                 });
                 break;
-            case 4:
+            case BY_DATE_DESC:
                 Collections.sort(todoTasks, new Comparator<TodoTask>() {
                     @Override
                     public int compare(TodoTask o1, TodoTask o2) {
@@ -127,6 +125,11 @@ public class TodoList {
     }
 
     public void displayTasks() {
+        if (todoTasks.isEmpty()) {
+            System.out.println("Empty List. Please add a task.\n");
+            return;
+        }
+
         sortTasks();
         if (!doneTaskOnOff) {
             for (TodoTask task : todoTasks) {
@@ -139,5 +142,14 @@ public class TodoList {
             }
         }
         System.out.println();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.name).append(" : ");
+        sb.append(this.sort).append(" : ");
+        sb.append(this.theme);
+        return sb.toString();
     }
 }
