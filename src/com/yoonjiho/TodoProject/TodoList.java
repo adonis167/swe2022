@@ -10,18 +10,18 @@ public class TodoList {
 
     private String name;
     private Sort sort;
-    private TodoTheme theme;
     private ArrayList<TodoTask> todoTasks = new ArrayList<TodoTask>();
     private boolean doneTaskOnOff = false;
 
-    public TodoList(TodoTheme theme) {
-        this("untitled list", Sort.BY_ADD_ORDER, theme);
+    public TodoList() {
+        this("untitled list", Sort.BY_ADD_ORDER);
     }
-
-    public TodoList(String name, Sort sort, TodoTheme theme) {
+    public TodoList(String name) {
+        this(name, Sort.BY_ADD_ORDER);
+    }
+    public TodoList(String name, Sort sort) {
         this.name = name;
         this.sort = sort;
-        this.theme = theme;
     }
 
     public ArrayList<TodoTask> getTodoTasks() {
@@ -59,14 +59,6 @@ public class TodoList {
     public void setSorting(Sort sort) {
         this.sort = sort;
         //sortTasks();
-    }
-
-    public TodoTheme getTheme() {
-        return theme;
-    }
-
-    public void setTheme(TodoTheme theme) {
-        this.theme = theme;
     }
 
     public boolean isDoneTaskOnOff() {
@@ -147,9 +139,8 @@ public class TodoList {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(this.name).append(" : ");
-        sb.append(this.sort).append(" : ");
-        sb.append(this.theme);
+        sb.append(this.name).append(" ");
+        sb.append(this.todoTasks.size());
         return sb.toString();
     }
 }

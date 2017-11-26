@@ -1,0 +1,8 @@
+SWE2022,BY_ADD_ORDER,2,false
+0,Commit the assignment#3,2017-11-27,null,false,false
+1,Review the textbook,2017-11-27,2017-11-27 16:00,false,true
+Miscellaneous,BY_ADD_ORDER,2,false
+3,Read a book,2017-12-01,null,false,false
+4,Appointment with dentist.,2017-12-03,null,false,false
+AtHome,BY_ADD_ORDER,1,false
+2,Feed my cat,2017-11-28,null,false,false

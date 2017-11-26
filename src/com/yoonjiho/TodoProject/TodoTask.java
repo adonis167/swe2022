@@ -133,12 +133,11 @@ public class TodoTask {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(this.num).append(" : ");
-        sb.append(this.name).append(" : ");
-        sb.append(this.dueDateFormat.format(dueDate)).append(" : ");
-        if (isAlarm) sb.append(this.reminderDateFormat.format(reminder)).append(" : ");
-        else sb.append("null").append(" : ");
-        sb.append(this.done);
+        if (isDone()) sb.append("- [O] ");
+        else sb.append("[-] ");
+        sb.append(this.name).append(" ");
+        sb.append(this.dueDateFormat.format(dueDate)).append(" ");
+        if (isAlarm) sb.append("알림");
         return sb.toString();
     }
 }

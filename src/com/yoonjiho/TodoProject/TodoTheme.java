@@ -30,10 +30,11 @@ public class TodoTheme {
 
     @Override
     public String toString() {
-        return "TodoTheme{" +
-                "name = '" + name + '\'' +
-                ", headerColor = " + headerColor +
-                ", backgroundImg = " + backgroundImg +
-                '}';
+        return name;
+//                return "TodoTheme{" +
+//                "name = '" + name + '\'' +
+//                ", headerColor = " + headerColor +
+//                ", backgroundImg = " + backgroundImg +
+//                '}';
     }
 }
