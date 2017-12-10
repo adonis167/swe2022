@@ -1,131 +1,28 @@
 package com.yoonjiho.TodoProject;
 
-import java.io.*;
-import java.text.ParseException;
-import java.util.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class App {
-    public static final String fileName = "./src/com/yoonjiho/TodoProject/data.txt";
+public class App implements Serializable{
     private TodoTheme todoTheme = new TodoTheme();
     private ArrayList<TodoList> todoLists = new ArrayList<>();
-    public Timer mTimer = new Timer();
-    public int timerCount;
+    public transient Timer mTimer;
+    public transient int timerCount;
 
-    public void fileExistanceTest() {
-        File f = new File(fileName);
-        if (!f.exists()) {
-            try {
-                FileWriter fw = new FileWriter(f, false) ;
-                fw.write("");
-                fw.flush();
-                fw.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+    public App() {
+        setTimer();
     }
 
-    public void readData() throws ParseException {
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(fileName));
-            String listData = "";
-            String taskData = "";
+    /**
+     *  Set the Timer to check time of the reminders alarm for every N second.
+     *  For the test, I set the maximum checking count number is 20.
+     */
 
-            while ((listData = reader.readLine()) != null) {
-                //System.out.println(data);
-                String newList[] = listData.split(",");
-                TodoList list = makeList(newList[0], TodoList.Sort.valueOf(newList[1]));
-                if (newList[3].equals("true")) list.setDoneTaskOnOff(true);
-                for (int i=0; i < Integer.parseInt(newList[2]); i++) {
-                    taskData = reader.readLine();
-                    String newTask[] = taskData.split(",");
-                    if (newTask[3].equals("null")) {
-                        TodoTask task = list.addTask(newTask[1], TodoTask.dueDateFormat.parse(newTask[2]), null);
-                        if (newTask[4].equals("true")) task.setDone(true);
-                    }
-                    else {
-                        TodoTask task = list.addTask(newTask[1], TodoTask.dueDateFormat.parse(newTask[2]), TodoTask.reminderDateFormat.parse(newTask[3]));
-                        if (newTask[4].equals("true")) task.setDone(true);
-                    }
-                }
-            }
-            reader.close();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void writeData() {
-
-        String txt;
-
-        String listName;
-        String listSort;
-        int nTodo;
-        String doneTaskOnOff;
-
-        int todoNum;
-        String todoName;
-        String dueDate;
-        String reminder;
-        String done;
-        String isAlarm;
-
-        try {
-
-            BufferedWriter fw = new BufferedWriter(new FileWriter(fileName, false));
-
-            for (TodoList todoList : todoLists) {
-
-                listName = todoList.getName();
-                listSort = todoList.getSorting().toString();
-                nTodo = todoList.getTodoTasks().size();
-                doneTaskOnOff = todoList.isDoneTaskOnOff() ? "true" : "false";
-                txt = listName + "," + listSort + "," + nTodo + "," + doneTaskOnOff + "\n";
-
-                fw.write(txt);
-
-                for(TodoTask todoTask : todoList.getTodoTasks()) {
-                    todoNum = todoTask.getNum();
-                    todoName = todoTask.getName();
-                    dueDate = TodoTask.dueDateFormat.format(todoTask.getDueDate());
-                    if (todoTask.isAlarm()) reminder = TodoTask.reminderDateFormat.format(todoTask.getReminder());
-                    else reminder = "null";
-                    done = todoTask.isDone() ? "true" : "false";
-                    isAlarm = todoTask.isAlarm() ? "true" : "false";
-                    txt = todoNum + "," + todoName + "," + dueDate + "," + reminder + "," + done + "," + isAlarm + "\n";
-
-                    fw.write(txt);
-                }
-            }
-
-            fw.flush();
-            fw.close();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public App() throws ParseException {
-
-        fileExistanceTest();
-        readData();
-
-
-        /**
-         *  Set the Timer to check time of the reminders alarm for every N second.
-         *  For the test, I set the maximum checking count number is 20.
-         */
-
+    public void setTimer() {
+        mTimer = new Timer();
         TimerTask mTask = new TimerTask() {
             @Override
             public void run() {

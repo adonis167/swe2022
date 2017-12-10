@@ -1,10 +1,11 @@
 package com.yoonjiho.TodoProject;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class TodoTask {
+public class TodoTask implements Serializable{
     public static SimpleDateFormat dueDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     public static SimpleDateFormat reminderDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     public static Calendar cal = Calendar.getInstance();

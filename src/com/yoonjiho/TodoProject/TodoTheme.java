@@ -1,9 +1,10 @@
 package com.yoonjiho.TodoProject;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class TodoTheme {
+public class TodoTheme implements Serializable {
     private static ArrayList<TodoTheme> themeList = new ArrayList<>();
     private String name;
     private Color headerColor;
